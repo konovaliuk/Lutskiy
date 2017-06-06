@@ -31,7 +31,7 @@ public class CommandFlightsInterval implements ICommand {
 			start = format.parse(request.getParameter("date_start"));
 			end = format.parse(request.getParameter("date_end"));
 		} catch (NullPointerException e) {
-			LOGGER.warn("date parameters are missing", e);
+			// it is ok
 			return "/Airline/flights";
 		} catch (ParseException e) {
 			LOGGER.warn("wrogn date format: start - " + request.getParameter("date_start") + " end - "
