@@ -81,7 +81,8 @@ public class FlightJdbcDao implements FlightDao {
 	public Flight getFlightById(Long id) throws DaoException {
 		LOGGER.info("method getFlightById started, id - " + id);
 		Flight flight = null;
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection();
+				Statement statement = connection.createStatement()) {
 			ResultSet rs = statement.executeQuery(SELECT_BY_ID + id);
 			if (rs.next()) {
 				flight = new Flight(rs.getLong("id"), rs.getString("departure"), rs.getString("destination"),
@@ -101,7 +102,8 @@ public class FlightJdbcDao implements FlightDao {
 	public List<Flight> findFlightsFromDate(Date date) throws DaoException {
 		LOGGER.info("method findFlightsFromDate started, date - " + new java.sql.Date(date.getTime()));
 		List<Flight> flights = new ArrayList<Flight>();
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			ResultSet rs = statement.executeQuery(SELECT_FROM_DATE + new Timestamp(date.getTime()) + ORDER_BY_DATE);
 			while (rs.next()) {
 				flights.add(new Flight(rs.getLong("id"), rs.getString("departure"), rs.getString("destination"),
@@ -118,7 +120,8 @@ public class FlightJdbcDao implements FlightDao {
 	@Override
 	public void deleteFlightById(Long id) throws DaoException {
 		LOGGER.info("method deleteFlightById started");
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			if (statement.executeUpdate(DELETE_BY_ID + id) == 0) {
 				throw new SQLException("Deleting flight failed, no rows affected");
 			}
@@ -136,7 +139,8 @@ public class FlightJdbcDao implements FlightDao {
 	public List<Flight> findFlightsInDateInterval(Date start, Date end) throws DaoException {
 		LOGGER.info("method findFlightsInDateInterval started");
 		List<Flight> flights = new ArrayList<Flight>();
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			ResultSet rs = statement.executeQuery(SELECT_IN_DATE_INTERVAL + new Timestamp(start.getTime()) + "' and '"
 					+ new Timestamp(end.getTime()) + ORDER_BY_DATE);
 			while (rs.next()) {
@@ -154,7 +158,8 @@ public class FlightJdbcDao implements FlightDao {
 	@Override
 	public void deleteCrewById(Long id) throws DaoException {
 		LOGGER.info("method deleteCrewById started, id - " + id);
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			statement.executeUpdate(DELETE_CREW_BY_ID + id);
 			LOGGER.info("crew deleted, id - " + id);
 		} catch (SQLException e) {
@@ -174,7 +179,8 @@ public class FlightJdbcDao implements FlightDao {
 			query.append("(").append(flightId).append(",").append(id).append(")").append(",");
 		}
 		query.deleteCharAt(query.length() - 1);  							// deleting last comma
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			statement.executeUpdate(new String(query));
 			LOGGER.info("crew was saved flightId - " + flightId + "users id - " + userId);
 		} catch (SQLException e) {
@@ -191,7 +197,8 @@ public class FlightJdbcDao implements FlightDao {
 		LOGGER.info("method findFlightsByUserIdFromDate started, userId - " + id + " date - "
 				+ new java.sql.Date(date.getTime()));
 		List<Flight> flights = new ArrayList<Flight>();
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			ResultSet rs = statement.executeQuery(SELECT_BY_USER_ID_FROM_DATE1 + id + SELECT_BY_USER_ID_FROM_DATE2
 					+ new Timestamp(date.getTime()) + ORDER_BY_DATE);
 			while (rs.next()) {

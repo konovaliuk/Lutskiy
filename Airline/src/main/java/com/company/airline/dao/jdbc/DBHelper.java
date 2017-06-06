@@ -9,11 +9,11 @@ import java.sql.SQLException;
 public class DBHelper {
 
 	private static DataSource dataSourse = getDataSourse();
-	
+
 	private DBHelper() {
 	}
-	
-	private static DataSource getDataSourse(){
+
+	private static DataSource getDataSourse() {
 		DataSource dataSourse = null;
 		try {
 			dataSourse = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/airline");
@@ -22,6 +22,7 @@ public class DBHelper {
 		}
 		return dataSourse;
 	}
+
 	public static Connection getConnection() throws SQLException {
 		return dataSourse.getConnection();
 	}

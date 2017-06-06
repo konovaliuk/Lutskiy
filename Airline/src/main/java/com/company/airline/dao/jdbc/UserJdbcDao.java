@@ -96,7 +96,8 @@ public class UserJdbcDao implements UserDao {
 	public User findUserByEmail(String email) throws DaoException {
 		LOGGER.info("method findUserByEmail started, email - " + email);
 		User user = null;
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			ResultSet rs = statement.executeQuery(SELECT_BY_EMAIL + email + "'");
 			if (rs.next()) {
 				user = new User(rs.getLong("id"), rs.getString("first_name"), rs.getString("last_name"),
@@ -118,14 +119,15 @@ public class UserJdbcDao implements UserDao {
 	public List<User> findUsersForCrewExceptDate(Date date) throws DaoException {
 		LOGGER.info("method findUsersForCrewExceptDate started, date - " + new java.sql.Date(date.getTime()));
 		List<User> users = new ArrayList<User>();
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			ResultSet rs = statement.executeQuery(
 					SELECT_FOR_CREW_EXCEPT_DATE1 + new Timestamp(date.getTime()) + SELECT_FOR_CREW_EXCEPT_DATE2);
 			while (rs.next()) {
 				/*creating users with role from ResultSet*/
 				users.add(new User(rs.getLong("user_id"), rs.getString("first_name"), rs.getString("last_name"),
 						rs.getString("email"), rs.getString("password"),
-						new Role(rs.getInt("role_id"), rs.getString("role_name"))));	
+						new Role(rs.getInt("role_id"), rs.getString("role_name"))));
 			}															
 			LOGGER.info("users were found - " + users);
 		} catch (SQLException e) {
@@ -142,7 +144,8 @@ public class UserJdbcDao implements UserDao {
 	public List<User> findUsersByFlightId(Long id) throws DaoException {
 		LOGGER.info("method findUsersByFlightId started, id - " + id);
 		List<User> users = new ArrayList<User>();
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			ResultSet rs = statement.executeQuery(SELECT_BY_FLIGHT_ID1 + id + SELECT_BY_FLIGHT_ID2);
 			while (rs.next()) {
 				/*creating users with role from ResultSet*/
@@ -162,7 +165,8 @@ public class UserJdbcDao implements UserDao {
 	public List<User> findAllUsersExceptAdmin() throws DaoException {
 		LOGGER.info("method findAllUsersExceptAdmin started");
 		List<User> users = new ArrayList<User>();
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			ResultSet rs = statement.executeQuery(SELECT_ALL_USERS_EXCEPT_ADMIN);
 			while (rs.next()) {
 				/*creating users with role from ResultSet*/
@@ -182,7 +186,8 @@ public class UserJdbcDao implements UserDao {
 	public User getUserById(long id) throws DaoException {
 		LOGGER.info("method getUserById started, id - " + id);
 		User user = null;
-		try (Connection connection = DBHelper.getConnection(); Statement statement = connection.createStatement()) {
+		try (Connection connection = DBHelper.getConnection(); 
+				Statement statement = connection.createStatement()) {
 			ResultSet rs = statement.executeQuery(SELECT_BY_ID + id);
 			if (rs.next()) {
 				/*creating user with role from ResultSet*/
