@@ -11,7 +11,7 @@
 		</div>
 		<div class="right-float margin-top class">
 			<a href="/Airline/flights" class = "margin-right"><fmt:message key="flights"/></a>
-			<c:if test = "${user.role == 'admin'}">
+			<c:if test = "${sessionScope.user.role == 'admin'}">
 				<a href="/Airline/admin/users" class = "margin-right"><fmt:message key="users"/></a>
 			</c:if>
 		</div>
