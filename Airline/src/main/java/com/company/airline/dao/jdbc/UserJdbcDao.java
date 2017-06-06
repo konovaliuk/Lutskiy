@@ -51,9 +51,6 @@ public class UserJdbcDao implements UserDao {
 		return userJdbcDao;
 	}
 	
-	/**
-	 * @return created user with auto-generated id
-	 */
 	public User createUser(UserBuilder builder) throws DaoException {
 		LOGGER.info("method createUser started");
 		User user = null;
@@ -88,10 +85,7 @@ public class UserJdbcDao implements UserDao {
 		}
 		return user;
 	}
-
-	/**
-	 * @return user WITHOUT role (role = null) or null if user with given email is not exist
-	 */
+	
 	@Override
 	public User findUserByEmail(String email) throws DaoException {
 		LOGGER.info("method findUserByEmail started, email - " + email);
@@ -110,11 +104,7 @@ public class UserJdbcDao implements UserDao {
 		}
 		return user;
 	}
-
-	/**
-	 * Users for crew: pilot, navigator, radioman, stewardess
-	 * @return users or empty List if users with given conditions are not exist
-	 */
+	
 	@Override
 	public List<User> findUsersForCrewExceptDate(Date date) throws DaoException {
 		LOGGER.info("method findUsersForCrewExceptDate started, date - " + new java.sql.Date(date.getTime()));
@@ -137,9 +127,6 @@ public class UserJdbcDao implements UserDao {
 		return users;
 	}
 
-	/**
-	 * @return users or empty List if users with given conditions are not exist
-	 */
 	@Override
 	public List<User> findUsersByFlightId(Long id) throws DaoException {
 		LOGGER.info("method findUsersByFlightId started, id - " + id);

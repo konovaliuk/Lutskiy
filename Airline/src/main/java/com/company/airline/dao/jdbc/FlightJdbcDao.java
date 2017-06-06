@@ -132,9 +132,7 @@ public class FlightJdbcDao implements FlightDao {
 		}
 	}
 	
-	/**
-	 * @return flights or empty List if flights with given conditions are not exist
-	 */
+	
 	@Override
 	public List<Flight> findFlightsInDateInterval(Date start, Date end) throws DaoException {
 		LOGGER.info("method findFlightsInDateInterval started");
@@ -189,9 +187,6 @@ public class FlightJdbcDao implements FlightDao {
 		}
 	}
 	
-	/**
-	 * @return flights with given userId or empty List if flights with given conditions are not exist
-	 */
 	@Override
 	public List<Flight> findFlightsByUserIdFromDate(long id, Date date) throws DaoException {
 		LOGGER.info("method findFlightsByUserIdFromDate started, userId - " + id + " date - "
