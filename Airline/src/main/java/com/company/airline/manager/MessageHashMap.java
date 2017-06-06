@@ -9,9 +9,6 @@ class MessageHashMap implements IMessage {
 
 	@Override
 	public ResourceBundle getRes(Locale locale) {
-		System.out.println("DisplayLanguage " + locale.getDisplayLanguage());
-		System.out.println("Language " + locale.getLanguage());
-		System.out.println("DisplayName " + locale.getDisplayName());
 		ResourceBundle resource = resources.get(locale);
 		if (resource == null) {
 			resource = ResourceBundle.getBundle(Message.BUNDLE_NAME, locale);
