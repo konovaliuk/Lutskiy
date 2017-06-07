@@ -1,6 +1,8 @@
 package com.company.airline.commands;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,9 @@ import org.apache.log4j.Logger;
 
 import com.company.airline.dao.FlightDao;
 import com.company.airline.dao.factory.DaoFactoryInstance;
+import com.company.airline.dao.jdbc.DBHelper;
+import com.company.airline.dao.jdbc.IDoDao;
+import com.company.airline.dao.jdbc.TransactionManager;
 import com.company.airline.exception.DaoException;
 
 public class CommandSaveCrew implements ICommand {
@@ -26,17 +31,30 @@ public class CommandSaveCrew implements ICommand {
 		FlightDao flightDao = DaoFactoryInstance.getFactory().getFlightDao();
 
 		if (userIdString == null) {
-			flightDao.deleteCrewById(flightId);
+			try {
+				flightDao.deleteCrewById(DBHelper.getConnection(), flightId);
+			} catch (SQLException e) {
+				LOGGER.warn("exception", e);
+			}
 			LOGGER.info("delete crew with id - " + flightId);
 		} else {
 			List<Long> userId = new ArrayList<>();
 			for (String idString : userIdString) {
 				userId.add(Long.parseLong(idString));
 			}
-			flightDao.deleteCrewById(flightId);
-			LOGGER.info("delete crew with id - " + flightId);
-			flightDao.saveCrewById(flightId, userId);
-			LOGGER.info("save crew with id - " + flightId + " users: " + userId);
+			
+			TransactionManager.doInTransaction(new IDoDao() {
+				public void process(Connection connection) throws SQLException {
+					try {
+						flightDao.deleteCrewById(connection, flightId);
+						LOGGER.info("delete crew with id - " + flightId);
+						flightDao.saveCrewById(connection, flightId, userId);
+						LOGGER.info("save crew with id - " + flightId + " users: " + userId);
+					} catch (DaoException e) {
+						LOGGER.warn("exception", e);
+					}
+				}
+			});
 		}
 		return "/Airline/flights";
 	}

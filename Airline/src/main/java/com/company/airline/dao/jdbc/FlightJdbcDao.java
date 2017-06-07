@@ -118,10 +118,9 @@ public class FlightJdbcDao implements FlightDao {
 	}
 
 	@Override
-	public void deleteFlightById(Long id) throws DaoException {
+	public void deleteFlightById(Connection connection, Long id) throws DaoException {
 		LOGGER.info("method deleteFlightById started");
-		try (Connection connection = DBHelper.getConnection(); 
-				Statement statement = connection.createStatement()) {
+		try (Statement statement = connection.createStatement()) {
 			if (statement.executeUpdate(DELETE_BY_ID + id) == 0) {
 				throw new SQLException("Deleting flight failed, no rows affected");
 			}
@@ -154,10 +153,9 @@ public class FlightJdbcDao implements FlightDao {
 	}
 
 	@Override
-	public void deleteCrewById(Long id) throws DaoException {
+	public void deleteCrewById(Connection connection, Long id) throws DaoException {
 		LOGGER.info("method deleteCrewById started, id - " + id);
-		try (Connection connection = DBHelper.getConnection(); 
-				Statement statement = connection.createStatement()) {
+		try (Statement statement = connection.createStatement()) {
 			statement.executeUpdate(DELETE_CREW_BY_ID + id);
 			LOGGER.info("crew deleted, id - " + id);
 		} catch (SQLException e) {
@@ -167,7 +165,7 @@ public class FlightJdbcDao implements FlightDao {
 	}
 
 	@Override
-	public void saveCrewById(Long flightId, List<Long> userId) throws DaoException {
+	public void saveCrewById(Connection connection, Long flightId, List<Long> userId) throws DaoException {
 		LOGGER.info("method saveCrewById started, flightId - " + flightId + "users id - " + userId);
 		if (userId.size() == 0) {
 			return;
@@ -177,8 +175,7 @@ public class FlightJdbcDao implements FlightDao {
 			query.append("(").append(flightId).append(",").append(id).append(")").append(",");
 		}
 		query.deleteCharAt(query.length() - 1);  							// deleting last comma
-		try (Connection connection = DBHelper.getConnection(); 
-				Statement statement = connection.createStatement()) {
+		try (Statement statement = connection.createStatement()) {
 			statement.executeUpdate(new String(query));
 			LOGGER.info("crew was saved flightId - " + flightId + "users id - " + userId);
 		} catch (SQLException e) {

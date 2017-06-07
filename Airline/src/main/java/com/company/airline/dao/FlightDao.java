@@ -1,5 +1,6 @@
 package com.company.airline.dao;
 
+import java.sql.Connection;
 import java.util.Date;
 import java.util.List;
 
@@ -24,11 +25,11 @@ public interface FlightDao {
 	
 	public void updateFlight(Flight flight) throws DaoException;
 	
-	public void deleteFlightById(Long id) throws DaoException;
+	public void deleteFlightById(Connection connection, Long id) throws DaoException;
 	
-	public void deleteCrewById(Long id) throws DaoException;
+	public void deleteCrewById(Connection connection, Long id) throws DaoException;
 	
-	public void saveCrewById(Long flightId, List<Long> userId) throws DaoException;
+	public void saveCrewById(Connection connection, Long flightId, List<Long> userId) throws DaoException;
 	
 	/**
 	 * @return flights with given userId or empty List if flights with given conditions are not exist
